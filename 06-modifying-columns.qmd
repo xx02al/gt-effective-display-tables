@@ -716,8 +716,12 @@ Let's create a frequency table showing counts and percentages:
 ```{r}
 gtcars |>
  dplyr::count(bdy_style, name = "n") |>
- dplyr::mutate(pct = n / sum(n) * 100) |>
+ dplyr::mutate(pct = n / sum(n)) |>
  gt() |>
+ fmt_percent(
+   columns = pct,
+   decimals = 1
+ ) |>
  cols_merge_n_pct(
    col_n = n,
    col_pct = pct
