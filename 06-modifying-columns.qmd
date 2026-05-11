@@ -746,9 +746,13 @@ towny |>
    )
  ) |>
  dplyr::count(size_category, name = "count") |>
- dplyr::mutate(percentage = count / sum(count) * 100) |>
+ dplyr::mutate(percentage = count / sum(count)) |>
  dplyr::arrange(desc(count)) |>
  gt() |>
+ fmt_percent(
+   columns = percentage,
+   decimals = 1
+ ) |>
  cols_merge_n_pct(
    col_n = count,
    col_pct = percentage
