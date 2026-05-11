@@ -732,7 +732,7 @@ gtcars |>
  )
 ```
 
-The table now shows entries like "coupe: 18 (34.62%)" and "sedan: 12 (23.08%)", communicating both the raw count and its proportion of the total. This dual presentation helps readers understand both the absolute frequency and relative importance of each category. The function automatically formats the percentage and wraps it in parentheses, following the conventional notation used in statistical and research publications.
+The table now shows entries like "coupe: 32 (68.1%)" and "sedan: 8 (17.0%)", communicating both the raw count and its proportion of the total. This dual presentation helps readers understand both the absolute frequency and relative importance of each category. Note that we first apply `fmt_percent()` to the percentage column before merging; `cols_merge_n_pct()` uses whatever formatted value is already in the cell, so formatting must happen first.
 
 This function is particularly useful for survey results, categorical summaries, and any situation where you want to show both absolute and relative frequencies:
 
