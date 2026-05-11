@@ -33,10 +33,10 @@ Let's start with a practical example. We'll use the `sp500` dataset, which conta
 
 ```{r}
 sp500 |>
-  filter(date >= "2015-01-05" & date <= "2015-01-16") |>
-  arrange(date) |>
-  mutate(week = paste0("W", strftime(date, format = "%V"))) |>
-  select(-adj_close, -volume) |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-16") |>
+  dplyr::arrange(date) |>
+  dplyr::mutate(week = paste0("W", strftime(date, format = "%V"))) |>
+  dplyr::select(-adj_close, -volume) |>
   gt(
     rowname_col = "date",
     groupname_col = "week"
@@ -57,8 +57,8 @@ The simplest approach is to provide function names as quoted strings:
 
 ```{r}
 sp500 |>
-  filter(date >= "2015-01-05" & date <= "2015-01-09") |>
-  select(date, open, high, low, close) |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  dplyr::select(date, open, high, low, close) |>
   gt(rowname_col = "date") |>
   tab_row_group(label = "First Week", rows = everything()) |>
   summary_rows(
@@ -73,8 +73,8 @@ When you need more control, you can use formula syntax. The right-hand side (RHS
 
 ```{r}
 sp500 |>
-  filter(date >= "2015-01-05" & date <= "2015-01-09") |>
-  select(date, open, close) |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  dplyr::select(date, open, close) |>
   gt(rowname_col = "date") |>
   tab_row_group(label = "First Week", rows = everything()) |>
   summary_rows(
@@ -92,8 +92,8 @@ For maximum flexibility, you can provide a double-sided formula where the left-h
 
 ```{r}
 sp500 |>
-  filter(date >= "2015-01-05" & date <= "2015-01-09") |>
-  select(date, open, close) |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  dplyr::select(date, open, close) |>
   gt(rowname_col = "date") |>
   tab_row_group(label = "First Week", rows = everything()) |>
   summary_rows(
@@ -115,7 +115,7 @@ The `columns` argument lets you specify which columns should receive summary cal
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -128,7 +128,7 @@ You can use any tidyselect expression in `columns`:
 
 ```{r}
 exibble |>
-  select(group, num, currency, char) |>
+  dplyr::select(group, num, currency, char) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = where(is.numeric),
@@ -145,7 +145,7 @@ Sometimes you only want summary rows for certain groups, not all of them. The `g
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     groups = "grp_a",
@@ -163,9 +163,9 @@ By default, summary rows appear at the bottom of each group. The `side` argument
 
 ```{r}
 countrypops |>
-  filter(country_code_2 %in% c("BR", "RU", "IN", "CN")) |>
-  filter(year %in% c(2000, 2010, 2020)) |>
-  select(country_name, year, population) |>
+  dplyr::filter(country_code_2 %in% c("BR", "RU", "IN", "CN")) |>
+  dplyr::filter(year %in% c(2000, 2010, 2020)) |>
+  dplyr::select(country_name, year, population) |>
   tidyr::pivot_wider(names_from = year, values_from = population) |>
   gt(rowname_col = "country_name") |>
   tab_row_group(label = "BRIC Nations", rows = everything()) |>
@@ -184,14 +184,14 @@ The `fmt` argument accepts formatting expressions that control how summary value
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
     fns = list("sum", "mean"),
     fmt = list(
-      ~ fmt_number(., decimals = 0, use_seps = TRUE),
-      ~ fmt_currency(., currency = "USD")
+      ~ fmt_number(., rows = "sum", decimals = 0, use_seps = TRUE),
+      ~ fmt_currency(., rows = "mean", currency = "USD")
     )
   )
 ```
@@ -202,7 +202,7 @@ You can also target specific columns within the formatting expression:
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -216,7 +216,7 @@ For group-specific formatting, use a two-sided formula where the LHS identifies 
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -255,10 +255,10 @@ While `summary_rows()` operates on individual row groups, `grand_summary_rows()`
 
 ```{r}
 sp500 |>
-  filter(date >= "2015-01-05" & date <= "2015-01-16") |>
-  arrange(date) |>
-  mutate(week = paste0("W", strftime(date, format = "%V"))) |>
-  select(-adj_close, -volume) |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-16") |>
+  dplyr::arrange(date) |>
+  dplyr::mutate(week = paste0("W", strftime(date, format = "%V"))) |>
+  dplyr::select(-adj_close, -volume) |>
   gt(
     rowname_col = "date",
     groupname_col = "week"
@@ -294,9 +294,9 @@ The key difference is that `grand_summary_rows()` has no `groups` argument, sinc
 
 ```{r}
 countrypops |>
-  filter(country_code_2 %in% c("BE", "NL", "LU")) |>
-  filter(year %% 10 == 0) |>
-  select(country_name, year, population) |>
+  dplyr::filter(country_code_2 %in% c("BE", "NL", "LU")) |>
+  dplyr::filter(year %% 10 == 0) |>
+  dplyr::select(country_name, year, population) |>
   tidyr::pivot_wider(names_from = year, values_from = population) |>
   gt(rowname_col = "country_name") |>
   tab_header(title = "Populations of the Benelux Countries") |>
@@ -375,11 +375,11 @@ The following example demonstrates this pattern with population data for two gro
 
 ```{r}
 countrypops |>
-  filter(
+  dplyr::filter(
     country_code_2 %in% c("BR", "RU", "IN", "CN", "FR", "DE", "IT", "GB")
   ) |>
-  filter(year %% 10 == 0) |>
-  select(country_name, year, population) |>
+  dplyr::filter(year %% 10 == 0) |>
+  dplyr::select(country_name, year, population) |>
   tidyr::pivot_wider(names_from = year, values_from = population) |>
   gt(rowname_col = "country_name") |>
   tab_row_group(
@@ -427,7 +427,7 @@ While summary rows aggregate data vertically (down columns), summary columns agg
 
 ```{r}
 exibble |>
-  select(row, num, currency) |>
+  dplyr::select(row, num, currency) |>
   gt(rowname_col = "row") |>
   summary_columns(
     columns = c(num, currency),
@@ -476,17 +476,17 @@ When you write `.[1]`, `.[2]`, and so on in your formula, you're referring to th
 
 ```{r}
 countrypops |>
-  arrange(country_name, year) |>
-  group_by(country_name, country_code_2) |>
-  summarize(
+  dplyr::arrange(country_name, year) |>
+  dplyr::group_by(country_name, country_code_2) |>
+  dplyr::summarize(
     pop_1960 = dplyr::first(population),
     pop_2024 = dplyr::last(population),
     years = dplyr::n(),
     .groups = "drop"
   ) |>
-  filter(!is.na(pop_1960), !is.na(pop_2024)) |>
-  slice_max(pop_2024 - pop_1960, n = 5) |>
-  select(country_name, pop_1960, pop_2024, years) |>
+  dplyr::filter(!is.na(pop_1960), !is.na(pop_2024)) |>
+  dplyr::slice_max(pop_2024 - pop_1960, n = 5) |>
+  dplyr::select(country_name, pop_1960, pop_2024, years) |>
   gt(rowname_col = "country_name") |>
   summary_columns(
     columns = c(pop_1960, pop_2024, years),
@@ -544,7 +544,7 @@ To apply uniform styling to all summary rows across all groups, use `cells_summa
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -568,7 +568,7 @@ You can target specific summary rows by their ID using the `rows` argument in `c
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -596,7 +596,7 @@ The `cells_summary()` function accepts `groups` and `columns` arguments for prec
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -620,7 +620,7 @@ Grand summary rows use the `cells_grand_summary()` location helper:
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   grand_summary_rows(
     columns = c(num, currency),
@@ -646,7 +646,7 @@ Footnotes can be attached to summary rows using `tab_footnote()` with the approp
 
 ```{r}
 exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
@@ -673,7 +673,7 @@ Sometimes you need to access the computed summary values programmatically, rathe
  
 ```{r}
 gt_table <- exibble |>
-  select(group, num, currency) |>
+  dplyr::select(group, num, currency) |>
   gt(groupname_col = "group") |>
   summary_rows(
     columns = c(num, currency),
