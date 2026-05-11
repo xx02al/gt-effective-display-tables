@@ -821,9 +821,9 @@ dplyr::tibble(
       list(id = "n", label = "n") ~ length(.)
     ),
     fmt = list(
-      ~ fmt_number(., decimals = 2),
-      ~ fmt_number(., decimals = 2),
-      ~ fmt_integer(.)
+      ~ fmt_number(., rows = "mean", decimals = 2),
+      ~ fmt_number(., rows = "sd", decimals = 2),
+      ~ fmt_integer(., rows = "n")
     )
   ) |>
   tab_style(
