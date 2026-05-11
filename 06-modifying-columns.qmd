@@ -667,7 +667,7 @@ price_ranges |>
 
 Each product tier now shows its price range in a single column with values like "$9.99–$19.99". The en-dash (–) separator is the typographically correct character for ranges, and `cols_merge_range()` uses it by default. By applying `fmt_currency()` to the target column, both the minimum and maximum values in each cell receive currency formatting.
 
-Note that when you apply formatting functions like `fmt_currency()`, you should apply them to the target column (the first column in the merge operation) for the formatting to take effect on the merged result.
+You can apply formatting to any of the columns involved in a merge, and even use different formatters on each. The formatting and merging steps are independent: **gt** formats each column's values first, then combines the formatted results into the merged cell.
 
 Here's another example using the `gtcars` dataset to show horsepower ranges by manufacturer:
 
