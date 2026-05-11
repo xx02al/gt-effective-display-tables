@@ -263,6 +263,11 @@ dplyr::tibble(
  quantity = c(100, 50, 5, 155)
 ) |>
  gt() |>
+ fmt_number(
+   columns = price,
+   decimals = 2,
+   drop_trailing_zeros = TRUE
+ ) |>
  cols_align_decimal(columns = price)
 ```
 
