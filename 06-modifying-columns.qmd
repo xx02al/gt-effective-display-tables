@@ -693,7 +693,7 @@ gtcars |>
  )
 ```
 
-This summary table shows the range of horsepower values for each manufacturer's lineup, presented as entries like "245–647" for Audi or "562–691" for Ferrari. At a glance, readers can see which manufacturers offer broader or narrower performance ranges. The compact range notation conveys the same information as two separate columns but in a more digestible format.
+This summary table shows the range of horsepower values for each manufacturer's lineup, presented as entries like "430–560" for Audi or "553–949" for Ferrari. At a glance, readers can see which manufacturers offer broader or narrower performance ranges. The compact range notation conveys the same information as two separate columns but in a more digestible format.
 
 ### `cols_merge_n_pct()`
 
