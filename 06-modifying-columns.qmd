@@ -765,7 +765,7 @@ towny |>
 
 This categorical summary of Ontario municipalities shows how many fall into each size category along with the percentage. We can immediately see that "Small" municipalities dominate the dataset while "Large" municipalities are relatively rare. The merged format prevents the table from becoming unwieldy with separate count and percentage columns, while still conveying the complete picture.
 
-The `cols_merge_n_pct()` function handles the formatting of the percentage values and applies appropriate parentheses automatically, creating a clean and professional appearance for your frequency tables.
+The `cols_merge_n_pct()` function wraps the percentage column's value in parentheses and places it after the count, but it relies on you to format the percentage column beforehand with `fmt_percent()` (or another formatter). Without that step, the raw numeric values appear unformatted in the merged cell.
 
 ## Adding columns and rows
 
